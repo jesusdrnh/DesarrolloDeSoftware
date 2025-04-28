@@ -1,0 +1,45 @@
+<!-- templates/contacto.html (con Flask-WTF) -->
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Contáctanos</h2>
+<form method="POST" action="{{ url_for('contacto') }}">
+    {{ form.csrf_token }}
+    
+    <div>
+        {{ form.nombre.label }}
+        {{ form.nombre() }}
+        {% if form.nombre.errors %}
+            <span class="error">{{ form.nombre.errors[0] }}</span>
+        {% endif %}
+    </div>
+    
+    <div>
+        {{ form.email.label }}
+        {{ form.email() }}
+        {% if form.email.errors %}
+            <span class="error">{{ form.email.errors[0] }}</span>
+        {% endif %}
+    </div>
+    
+    <div>
+        {{ form.asunto.label }}
+        {{ form.asunto() }}
+        {% if form.asunto.errors %}
+            <span class="error">{{ form.asunto.errors[0] }}</span>
+        {% endif %}
+    </div>
+    
+    <div>
+        {{ form.mensaje.label }}
+        {{ form.mensaje(rows=5) }}
+        {% if form.mensaje.errors %}
+            <span class="error">{{ form.mensaje.errors[0] }}</span>
+        {% endif %}
+    </div>
+    
+    <div>
+        {{ form.enviar() }}
+    </div>
+</form>
+{% endblock %}

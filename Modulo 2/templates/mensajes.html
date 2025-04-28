@@ -1,0 +1,24 @@
+<!-- templates/mensajes.html -->
+{% extends 'base.html' %}
+
+{% block title %}Mensajes Recibidos{% endblock %}
+
+{% block content %}
+<h2>Mensajes Recibidos</h2>
+
+{% if mensajes %}
+    <div class="mensajes-lista">
+        {% for mensaje in mensajes %}
+            <div class="mensaje-card">
+                <h3>{{ mensaje.asunto }}</h3>
+                <p><strong>De:</strong> {{ mensaje.nombre }} ({{ mensaje.email }})</p>
+                <p>{{ mensaje.mensaje }}</p>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No hay mensajes recibidos aún.</p>
+{% endif %}
+
+<a href="{{ url_for('contacto') }}">Volver al formulario</a>
+{% endblock %}

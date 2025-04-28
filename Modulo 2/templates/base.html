@@ -1,0 +1,39 @@
+<!-- templates/base.html (versión básica) -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Formulario de Contacto{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <h1>Mi Aplicación Flask</h1>
+            <ul>
+                <li><a href="{{ url_for('contacto') }}">Contacto</a></li>
+                <li><a href="{{ url_for('mensajes_recibidos') }}">Mensajes</a></li>
+            </ul>
+        </nav>
+    </header>
+    <h1>Mi Aplicación Flask</h1>
+    
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="flash-messages">
+            {% for message in messages %}
+                <div class="flash-message">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
+    
+    {% block content %}{% endblock %}
+    
+    <footer>
+        <p>&copy; 2025 - Aplicación de Ejemplo</p>
+    </footer>
+</body>
+</html>
