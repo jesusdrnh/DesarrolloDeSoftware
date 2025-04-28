@@ -1,0 +1,77 @@
+### Python ###
+# Archivos de byte compilados
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribución / packaging
+dist/
+build/
+*.egg-info/
+*.egg
+
+# Entornos virtuales
+venv/
+env/
+ENV/
+.env
+.venv
+env.bak/
+venv.bak/
+
+# Testing
+.coverage
+htmlcov/
+.tox/
+.pytest_cache/
+.nox/
+
+### Flask ###
+instance/
+.webassets-cache
+flask_session/
+
+### Django ###
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+
+# Si estás usando collectstatic
+/staticfiles/
+
+# Archivos de migraciones Django, descomenta si quieres ignorarlos
+*/migrations/*.py
+!*/migrations/__init__.py
+
+### IDEs y Editores ###
+# VS Code
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+*.iml
+*.iws
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+### Sistemas Operativos ###
+# Mac OS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Archivos de logs
+logs/
+*.log
+
+# Archivos de ambiente secretos
+.env
+.env.local
+.env.*.local
