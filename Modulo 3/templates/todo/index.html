@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista de Tareas{% endblock %}
+
+{% block content %}
+<section class="tasks-section">
+    <div class="section-header">
+        <h2>Mis Tareas</h2>
+        <a href="{{ url_for('create_task') }}" class="btn btn-primary">Nueva Tarea</a>
+    </div>
+
+    <div class="filters">
+        <form method="GET" action="{{ url_for('index') }}">
+            <div class="filter-group">
+                <label for="status">Estado:</label>
+                <select name="status" id="status" onchange="this.form.submit()">
+                    <option value="all" {% if request.args.get('status') == 'all' or not request.args.get('status') %}selected{% endif %}>Todas</option>
+                    <option value="pending" {% if request.args.get('status') == 'pending' %}selected{% endif %}>Pendientes</option>
+                    <option value="completed" {% if request.args.get('status') == 'completed' %}selected{% endif %}>Completadas</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="priority">Prioridad:</label>
+                <select name="priority" id="priority" onchange="this.form.submit()">
+                    <option value="all" {% if request.args.get('priority') == 'all' or not request.args.get('priority') %}selected{% endif %}>Todas</option>
+                    <option value="1" {% if request.args.get('priority') == '1' %}selected{% endif %}>Baja</option>
+                    <option value="2" {% if request.args.get('priority') == '2' %}selected{% endif %}>Media</option>
+                    <option value="3" {% if request.args.get('priority') == '3' %}selected{% endif %}>Alta</option>
+                </select>
+            </div>
+        </form>
+    </div>
+
+    {% if tasks %}
+        <div class="task-list">
+            {% for task in tasks %}
+                <div class="task-card priority-{{ task.priority }}{% if task.done %} task-done{% endif %}">
+                    <div class="task-header">
+                        <h3>{{ task.title }}</h3>
+                        <span class="task-priority">
+                            {% if task.priority == 1 %}Baja{% elif task.priority == 2 %}Media{% else %}Alta{% endif %}
+                        </span>
+                    </div>
+                    
+                    {% if task.description %}
+                        <div class="task-description">
+                            <p>{{ task.description }}</p>
+                        </div>
+                    {% endif %}
+                    
+                    <div class="task-meta">
+                        {% if task.due_date %}
+                            <span class="due-date">Vence: {{ task.due_date.strftime('%d/%m/%Y') }}</span>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="task-actions">
+                        <form method="POST" action="{{ url_for('toggle_task', task_id=task.id) }}" class="inline-form">
+                            <input type="hidden" name="_method" value="PUT">
+                            <button type="submit" class="btn btn-sm {% if task.done %}btn-undo{% else %}btn-done{% endif %}">
+                                {% if task.done %}Marcar como pendiente{% else %}Marcar como completada{% endif %}
+                            </button>
+                        </form>
+                        <a href="{{ url_for('edit_task', task_id=task.id) }}" class="btn btn-sm btn-edit">Editar</a>
+                        <form method="POST" action="{{ url_for('delete_task', task_id=task.id) }}" class="inline-form" onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta tarea?');">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit" class="btn btn-sm btn-delete">Eliminar</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="no-tasks">
+            <p>No tienes tareas pendientes. ¿Por qué no creas una nueva?</p>
+            <a href="{{ url_for('create_task') }}" class="btn btn-primary">Nueva Tarea</a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}
